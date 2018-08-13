@@ -21,4 +21,8 @@ app_name = 'stripe'
 
 urlpatterns = [
     url(r'^$', views.IndexView.as_view(), name='index'),
+    url(r'^payment_form/$', views.payment_form, name="payment_form"),
+    url(r"^checkout$", views.checkout, name="checkout"),
+    url(r"^success", views.SuccessView.as_view(), name="success")
 ]
+
