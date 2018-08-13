@@ -17,3 +17,6 @@ class Car(models.Model):
     name = models.CharField(max_length=234)
     year = models.CharField(max_length=4)
     charge_id = models.CharField(max_length=234)
+
+
+    

@@ -7,6 +7,13 @@
 <body>
 <!-- templates/home.html -->
 <h2>Buy for $5.00</h2>
-Index file
+<form action="{% url 'success' %}" method="post">
+  {% csrf_token %}
+  <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+          data-key=""
+          data-description="A Django Charge"
+          data-amount="500"
+          data-locale="auto"></script>
+</form>
 </body>
 </html>
