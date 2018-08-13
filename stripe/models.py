@@ -19,4 +19,4 @@ class Car(models.Model):
     charge_id = models.CharField(max_length=234)
 
 
-    
+
