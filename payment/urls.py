@@ -17,12 +17,12 @@ from django.conf.urls import url
 from django.contrib import admin
 from . import views
 
-app_name = 'stripe'
+app_name = 'payment'
 
 urlpatterns = [
     url(r'^$', views.IndexView.as_view(), name='index'),
     # url(r'^payment_form/$', views.payment_form, name="payment_form"),
     # url(r"^checkout$", views.checkout, name="checkout"),
+    url(r'^charge/$', views.charge, name="charge"),
     url(r"^success", views.SuccessView.as_view(), name="success")
 ]
-

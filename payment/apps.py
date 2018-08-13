@@ -4,5 +4,5 @@ from __future__ import unicode_literals
 from django.apps import AppConfig
 
 
-class StripeConfig(AppConfig):
-    name = 'stripe'
+class PaymentConfig(AppConfig):
+    name = 'payment'
