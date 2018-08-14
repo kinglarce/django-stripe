@@ -16,7 +16,13 @@ class Sample(models.Model):
 class Car(models.Model):
     name = models.CharField(max_length=234)
     year = models.CharField(max_length=4)
-    charge_id = models.CharField(max_length=234)
+    charge_id = models.CharField(max_length=999)
+    customer_id = models.CharField(max_length=999)
+    subscription_id = models.CharField(max_length=999)
+    plan_id = models.CharField(max_length=999)
+
+    def __str__(self):
+        return self.name + ' - ' + self.charge_id + ' - ' + self.customer_id
 
 
 class Sale(models.Model):
@@ -52,7 +58,6 @@ class Sale(models.Model):
             response = self.stripe.Charge.create(
                 amount=price_in_cents,
                 currency="usd",
-                source="tok_visa",
                 card={
                     "number": number,
                     "exp_month": exp_month,

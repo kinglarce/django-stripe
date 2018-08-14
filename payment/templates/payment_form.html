@@ -1,9 +1,88 @@
-<form action="/checkout" method="POST">
-    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-        data-key="stripe_key"
-        data-amount="2000"
-        data-name="Your APp"
-        data-description="Your Product"
-        data-currency="usd">
-    </script>
+<!--<form action="{% url 'checkout' %}" method="POST">-->
+<!--{% csrf_token %}-->
+<!--<script-->
+<!--src="https://checkout.stripe.com/checkout.js" class="stripe-button"-->
+<!--data-key="{{stripe_key}}"-->
+<!--data-amount="999"-->
+<!--data-name="Arvato Systems GmbH"-->
+<!--data-description="Example charge"-->
+<!--data-image="https://stripe.com/img/documentation/checkout/marketplace.png"-->
+<!--data-locale="auto"-->
+<!--data-currency="eur">-->
+<!--</script>-->
+<!--</form>-->
+
+<script src="https://checkout.stripe.com/checkout.js"></script>
+<form id="myForm" action="{% url 'checkout' %}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" id="stripeToken" name="stripeToken"/>
+    <input type="hidden" id="stripeEmail" name="stripeEmail"/>
+
+    <input type="hidden" id="paymentPlanId" name="paymentPlanId"/>
+    <input type="hidden" id="paymentPlanName" name="paymentPlanName"/>
+    <button id="basic"
+            data-payment-amount="999"
+            data-payment-plan-id="plan_Cx3yDkURRytbNU"
+            data-payment-plan-name="EM Basic">basic</button>
+    <button id="smart"
+            data-payment-amount="29900"
+            data-payment-plan-id="plan_Cx3zp212WzJwxs"
+            data-payment-plan-name="EM smart">smart</button>
 </form>
+
+
+
+<script>
+var selectedPlanId = '';
+var selectedAmount = '';
+var selectPlanName = '';
+var handler = StripeCheckout.configure({
+  key: 'pk_test_PLEaEWrNsW1tKeHoT4rRMitu',
+  image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+  locale: 'auto',
+  token: function(token) {
+    // You can access the token ID with `token.id`.
+    // Get the token ID to your server-side code for use.
+
+    document.getElementById("paymentPlanId").value = selectedPlanId;
+    document.getElementById("paymentPlanName").value = selectPlanName;
+    document.getElementById("stripeToken").value = token.id;
+    document.getElementById("stripeEmail").value = token.email;
+    document.getElementById('myForm').submit();
+  }
+});
+
+
+document.getElementById('smart').addEventListener('click', function(e) {
+    selectedPlanId = e.target.getAttribute('data-payment-plan-id');
+    selectedAmount = e.target.getAttribute('data-payment-amount');
+    selectPlanName = e.target.getAttribute('data-payment-plan-name');
+
+    handler.open({
+        name: selectPlanName,
+        currency: 'eur',
+        amount: parseInt(selectedAmount)
+      });
+    e.preventDefault();
+});
+
+document.getElementById('basic').addEventListener('click', function(e) {
+    selectedPlanId = e.target.getAttribute('data-payment-plan-id');
+    selectedAmount = e.target.getAttribute('data-payment-amount');
+    selectPlanName = e.target.getAttribute('data-payment-plan-name');
+
+    handler.open({
+        name: selectPlanName,
+        currency: 'eur',
+        amount: parseInt(selectedAmount)
+      });
+    e.preventDefault();
+});
+
+
+// Close Checkout on page navigation:
+window.addEventListener('popstate', function() {
+  handler.close();
+});
+
+</script>
